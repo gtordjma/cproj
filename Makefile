@@ -1,6 +1,6 @@
-NAME	=	afficher
+NAME	=	symetrie
 LIBS  	=	-lSDL2 -lSDL2_image
-SRC		= main.c afficher.c 
+SRC		=	main.c symetrie_horizontale.c symetrie_verticale.c
 OBJ		=	$(SRC:.c=.o)
 FLAGS	=	-Wall -Wextra -Werror
 CC		=	gcc
