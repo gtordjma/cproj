@@ -1,0 +1,3 @@
+Pour compiler, on ouvre le Makefile, on ecrit le nom du fichier .c a compiler sur SRC
+
+ensuite ./cimp
