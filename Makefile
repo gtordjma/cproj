@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 NAME	=	cimp
 LIBS  	=	-lSDL2 -lSDL2_image
 SRC		= misengris.c  
+=======
+NAME	=	sauvegarde
+LIBS  	=	-lSDL2 -lSDL2_image
+SRC		= main.c sauvegarde.c
+>>>>>>> sauvegarde
 OBJ		=	$(SRC:.c=.o)
 FLAGS	=	-Wall -Wextra -Werror
 CC		=	gcc
