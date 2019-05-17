@@ -38,7 +38,12 @@ int	parse(char **ptr)
 		else if (strcmp(*cursor, "remplissage") == 0){
 			cursor++;
 			if (count_params(&(*cursor)) == 4)
-				remplissage(*cursor, (SDL_Color){atoi(*(cursor + 1)),atoi(*(cursor + 2)),atoi(*(cursor + 3))});	
+				remplissage(*cursor, (SDL_Color){atoi(*(cursor + 1)),atoi(*(cursor + 2)),atoi(*(cursor + 3))}, 255);	
+		}
+		else if (strcmp(*cursor, "remplacement") == 0){
+			cursor++;
+			if (count_params(&(*cursor)) == 5)
+				remplissage(*cursor, (SDL_Color){atoi(*(cursor + 1)),atoi(*(cursor + 2)),atoi(*(cursor + 3))}, atoi(*(cursor + 4)));	
 		}
 		else if (strcmp(*cursor, "gris") == 0){
 			cursor++;

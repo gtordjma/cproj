@@ -1,6 +1,6 @@
 #include "cimp.h"
 
-SDL_Surface *make_remplissage(SDL_Surface *img, SDL_Color *couleur){
+SDL_Surface *make_remplissage(SDL_Surface *img, SDL_Color *couleur, int d){
 	SDL_PixelFormat *fmt = img -> format;
 	Uint8 r, g, b, a;
 	int w = img -> w;
@@ -9,7 +9,8 @@ SDL_Surface *make_remplissage(SDL_Surface *img, SDL_Color *couleur){
     		for(int x = 0; x < w;x++){
       			Uint32 p = getpixel(img, x, y);
       			SDL_GetRGBA(p, fmt, &r, &g, &b, &a);
-      			p = SDL_MapRGBA(fmt, couleur->r, couleur->g,couleur->b, a);
+      			if((r-couleur->r)<=d && (g-couleur->g)<=d && (b-couleur->b)<=d)
+      				p = SDL_MapRGBA(fmt, couleur->r, couleur->g,couleur->b, a);
       			putpixel(img, x, y, p);
       		}
     	}
@@ -17,7 +18,7 @@ SDL_Surface *make_remplissage(SDL_Surface *img, SDL_Color *couleur){
   	return img;
 }
 
-int remplissage(char *name, SDL_Color couleur){
+int remplissage(char *name, SDL_Color couleur, int d){
     SDL_Surface *new = NULL;
     SDL_Texture *t = NULL;
     Windows *c = windows;
@@ -25,7 +26,7 @@ int remplissage(char *name, SDL_Color couleur){
       c = c->next;
     if (c == NULL)
       return 0;
-    new = make_remplissage(c->surface, &couleur);
+    new = make_remplissage(c->surface, &couleur, d);
     c->surface = new;
     t = create_texture(c);
     c->texture = t;
