@@ -1,0 +1,5 @@
+Pour faire les testes de nos fonctions, on tape la commande suivante : 
+
+gcc -Wall test.c afficher.c selection.c symetrie_horizontale.c symetrie_verticale.c -o test -lm -lSDL2 -lreadline -lSDL2_image $( pkg-config --libs check)
+
+Ensuite executer avec : ./test

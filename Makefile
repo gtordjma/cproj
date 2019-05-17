@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-NAME	=	cimp
-LIBS  	=	-lSDL2 -lSDL2_image
-SRC		= misengris.c  
-=======
-NAME	=	sauvegarde
-LIBS  	=	-lSDL2 -lSDL2_image
-SRC		= cimp.c sauvegarde.c
->>>>>>> sauvegarde
-OBJ		=	$(SRC:.c=.o)
-FLAGS	=	-Wall -Wextra -Werror
-CC		=	gcc
-=======
 NAME=cimp
 CC=gcc
 INC=-I include -Llib -lSDL2-2.0.0 -lSDL2_image -lreadline
@@ -23,7 +9,6 @@ OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)
 		$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(INC)
->>>>>>> b37bee0d6b6160c226f8ffe1a4eb5f931a38594b
 
 %.o: %.c
 		$(CC) $(CFLAGS) -I. -o $@ -c $? 
