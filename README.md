@@ -22,3 +22,5 @@ gris WINDOW_ID NB = Met en niveau de gris avec en pourcentage NB l'image se trou
 noirblanc WINDOW_ID = Met en noir et blanc l'image se trouvant dans la window WINDOW_ID
 
 quit = quit le programme
+
+save WINDOW_ID NAME = telecharge l'image se trouvant dans la window WINDOW_ID avec le nom NAME au format png et BMP

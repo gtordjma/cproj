@@ -33,6 +33,12 @@ int	parse(char **ptr)
 			if (count_params(&(*cursor)) == 2)
 				rotation(*cursor, *(cursor + 1));
 		}
+		else if (strcmp(*cursor, "save") == 0)
+		{
+			cursor++;
+			if (count_params(&(*cursor)) == 2)
+				save(*cursor, *(cursor + 1));
+		}
 		else if (strcmp(*cursor, "quit") == 0)
 			return 0;
 		else if (strcmp(*cursor, "remplissage") == 0){
