@@ -27,7 +27,17 @@ typedef struct Windows{
 
 char	**ft_strsplit(char const *s, char c);
 int 	initialize_readline(char **env1);
-int	parse(char **ptr, Windows* windows);
-void open(Windows *windows, char *img_path);
+int	parse(char **ptr);
+void open(char *img_path);
+int rotation(char *name, char *tour);
+void afficher();
+int paint(char *name, int nuance);
+SDL_Window *create_window(char *name, int width, int height);
+SDL_Renderer *create_renderer(Windows* w);
+SDL_Texture *create_texture(Windows* w);
+int symetrie_verticale(char *image);
+int symetrie_horizontale(char *image);
+
+Windows* windows;
 
 #endif

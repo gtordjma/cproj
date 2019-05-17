@@ -67,28 +67,27 @@ void afficher(Windows* w){
     SDL_RenderPresent(w->renderer);
 }
 
-void init_first_img(Windows *w, char *img_path)
+void init_first_img(char *img_path)
 {
-    w = malloc(sizeof(Windows));
-
+    windows = malloc(sizeof(Windows));
     Windows first;
     first.surface = create_surface(img_path);
     first.win = create_window("1", first.surface->w, first.surface->h);
     first.renderer = create_renderer(&first);
     first.texture = create_texture(&first);
     first.next = NULL;
-    memcpy(w,&first,sizeof(Windows));
+    memcpy(windows,&first,sizeof(Windows));
     afficher(&first);
     printf("%s est dans la window : %d\n", img_path, SDL_GetWindowID(first.win));
 }
 
-void open(Windows *windows, char *img_path)
+void open(char *img_path)
 {
     Windows* cursor = windows;
     if (check_image(img_path))
     {
         if (cursor == NULL)
-            init_first_img(windows, img_path);
+            init_first_img(img_path);
         else
         {
             while(cursor->next)
