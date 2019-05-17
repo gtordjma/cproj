@@ -3,7 +3,8 @@ CC=gcc
 INC=-I include -Llib -lSDL2-2.0.0 -lSDL2_image -lreadline
 CFLAGS=-Wall -Werror
 SRC = cimp.c parser.c completion.c ft_strsplit.c afficher.c \
-		rotation.c paint.c symetrie_horizontale.c symetrie_verticale.c
+		rotation.c paint.c symetrie_horizontale.c symetrie_verticale.c\
+		remplissage.c
 OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)

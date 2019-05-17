@@ -35,6 +35,11 @@ int	parse(char **ptr)
 		}
 		else if (strcmp(*cursor, "quit") == 0)
 			return 0;
+		else if (strcmp(*cursor, "remplissage") == 0){
+			cursor++;
+			if (count_params(&(*cursor)) == 4)
+				remplissage(*cursor, (SDL_Color){atoi(*(cursor + 1)),atoi(*(cursor + 2)),atoi(*(cursor + 3))});	
+		}
 		else if (strcmp(*cursor, "gris") == 0){
 			cursor++;
 			if (count_params(&(*cursor)) == 2)
