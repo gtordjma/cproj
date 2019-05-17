@@ -1,25 +1,22 @@
-NAME	=	cimp
-LIBS  	=	-lSDL2 -lSDL2_image
-SRC		= misengris.c  
-OBJ		=	$(SRC:.c=.o)
-FLAGS	=	-Wall -Wextra -Werror
-CC		=	gcc
+NAME=cimp
+CC=gcc
+INC=-I include -Llib -lSDL2-2.0.0 -lSDL2_image -lreadline
+CFLAGS=-Wall -Werror
+SRC = main.c parser.c completion.c ft_strsplit.c afficher.c
+OBJ = $(SRC:.c=.o)
+
+$(NAME): $(OBJ)
+		$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(INC)
 
 %.o: %.c
-	@$(CC) -I ./includes -o $@ -c $?
+		$(CC) -I. -o $@ -c $? $(CFLAGS)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(SRC) -I/usr/local/include -L/usr/local/lib $(LIBS) -o $(NAME)
-
 clean:
-	@rm -f $(OBJ)
+		rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME)
+		rm -f $(NAME)
 
 re: fclean all
-
-.PHONY:
-	all clean fclean re
