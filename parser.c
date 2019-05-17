@@ -51,6 +51,11 @@ int	parse(char **ptr)
 			if (count_params(&(*cursor)) == 5)
 				remplissage(*cursor, (SDL_Color){atoi(*(cursor + 1)),atoi(*(cursor + 2)),atoi(*(cursor + 3))}, atoi(*(cursor + 4)));	
 		}
+		else if (strcmp(*cursor, "select") == 0){
+			cursor++;
+			if (count_params(&(*cursor)) == 5)
+				select_img(*cursor, atoi(*(cursor + 1)), atoi(*(cursor + 2)), atoi(*(cursor + 3)), atoi(*(cursor + 4)));	
+		}
 		else if (strcmp(*cursor, "gris") == 0){
 			cursor++;
 			if (count_params(&(*cursor)) == 2)

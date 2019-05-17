@@ -24,3 +24,5 @@ noirblanc WINDOW_ID = Met en noir et blanc l'image se trouvant dans la window WI
 quit = quit le programme
 
 save WINDOW_ID NAME = telecharge l'image se trouvant dans la window WINDOW_ID avec le nom NAME au format png et BMP
+
+select WINDOW_ID X Y W H = fait une selection de l'image se trouvant dans la window WINDOW_ID a partir du point de l'image X,Y et en largeur W et de hauteur H
