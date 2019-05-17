@@ -1,54 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <math.h>
-
-void afficher(SDL_Surface *surface){//, char *nom){
-	  SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    SDL_Texture *texture, *tmp = NULL;
-  //  SDL_Surface *surface = NULL;
- 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-//return EXIT_FAILURE;
-    }
-    atexit(SDL_Quit);
-    	
-    window = SDL_CreateWindow("Mon Image", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
- 
-    if(!window)
-      {
-	fprintf(stderr, "Erreur creation window : %s", SDL_GetError());
-//	return EXIT_FAILURE;
-      }
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer)
-      {
-	fprintf(stderr, "echec de création du renderer : %s", SDL_GetError());
-//	return EXIT_FAILURE;
-      }
-  //  surface = SDL_LoadBMP(nom);//chargement de l'image
-    if (!surface){
-	fprintf(stderr, "Echec de chargement du sprite : %s ", SDL_GetError());
-//	return EXIT_FAILURE;
-    }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture){
-	    fprintf(stderr, "Echec de création de la texture : %s", SDL_GetError());
-//	    return EXIT_FAILURE;
-    }
-    SDL_Rect dest = {0, 0, surface -> w, surface -> h};//un SDL_Rect qui sers de destination à l'image
-    SDL_RenderCopy(renderer, texture, NULL, &dest); // copie de surface grâce au SDL_Renderer
-    SDL_RenderPresent(renderer); //Affichage
-    SDL_Delay(3000);
-    SDL_DestroyTexture(texture);//fin de programme, destruction des entitées utilisées
-    SDL_FreeSurface (surface);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-}
-
+#include "cimp.h"
 
 void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel){
 	int bpp = surface->format->BytesPerPixel;
@@ -110,41 +60,13 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y){
 	}
 }
 
-
-/*SDL_Surface * noir_et_blanc(SDL_Surface* img){
-  SDL_PixelFormat *fmt = img -> format;
-  Uint8 r, g, b, a;
-  Uint8 m;
-  int w = img -> w;
-  int h = img -> h;
-  for(int y =0; y < h;y++){
-    for(int x = 0; x < w;x++){
-      //printf("%d",c->r);
-      Uint32 p = getpixel(img, x, y);
-      SDL_GetRGBA(p, fmt, &r, &g, &b, &a);
-      m = (r + g + b)/3;
-      //printf("%d",m);
-      if(m<=127){
-        p = SDL_MapRGBA(fmt,0,0,0, a);
-      }else{
-        p = SDL_MapRGBA(fmt,255,255,255, a);
-
-      }
-      putpixel(img, x, y, p);
-    }
-  }
-  SDL_UnlockSurface(img);
-  return img;
-}*/
-
-SDL_Surface * noir_et_blanc(SDL_Surface* img){
-	//afficher(img);
+SDL_Surface *make_noir_et_blanc(SDL_Surface* img){
+	Uint8 r,g,b;
 	SDL_LockSurface(img);
 	for(int i=0;i<img->w;i++){
 		for(int j=0;j<img->h;j++){
-			Uint8 r,g,b;
 			SDL_GetRGB(getpixel(img,i,j),img->format,&r,&g,&b);
-			Uint32 m = (r+g+b)/3;
+			Uint8 m = (r+g+b)/3;
 			Uint32 w = SDL_MapRGB(img->format,m,m,m);
 			putpixel(img,i,j,w);
 		}
@@ -153,14 +75,19 @@ SDL_Surface * noir_et_blanc(SDL_Surface* img){
 	return img;
 }
 
+int noir_et_blanc(char *name){
 
-int main(int argc, char ** argv){
-	SDL_Surface *surface = NULL;
-	surface = SDL_LoadBMP("lac_en_montagne.bmp");
-	SDL_Surface *s = NULL;
-	s = noir_et_blanc(surface);
-	afficher(s);
-	
-	return 0;
-
+  SDL_Surface *new = NULL;
+  SDL_Texture *t = NULL;
+  Windows *c = windows;
+  while(c && c->win && ((int)SDL_GetWindowID(c->win) != atoi(name)))
+    c = c->next;
+  if (c == NULL)
+    return 0;
+  new = make_noir_et_blanc(c->surface);
+  c->surface = new;
+  t = create_texture(c);
+  c->texture = t;
+  afficher(c);
+  return 1;
 }

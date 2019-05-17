@@ -1,63 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <math.h>
+#include "cimp.h"
 
-SDL_Window *afficher(SDL_Surface *surface,char *nom);
-SDL_Surface * rotation(SDL_Surface* img, char ** argv);
-
-SDL_Window *afficher(SDL_Surface *surface,char *nom){
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    SDL_Texture *texture, *tmp = NULL;
- 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-    }
-    atexit(SDL_Quit);
-    	
-    window = SDL_CreateWindow("Mon Image", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
- 
-    if(!window)
-      {
-	fprintf(stderr, "Erreur creation window : %s", SDL_GetError());
-      }
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer)
-      {
-	fprintf(stderr, "echec de création du renderer : %s", SDL_GetError());
-      }
-    if (!surface){
-	fprintf(stderr, "Echec de chargement du sprite : %s ", SDL_GetError());
-    }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (!texture){
-	    fprintf(stderr, "Echec de création de la texture : %s", SDL_GetError());
-    }
-    SDL_Rect dest = {0, 0, surface -> w, surface -> h};//un SDL_Rect qui sers de destination à l'image
-    SDL_RenderCopy(renderer, texture, NULL, &dest); // copie de surface grâce au SDL_Renderer
-    SDL_RenderPresent(renderer); //Affichage
-    //SDL_Delay(3000);
-    //SDL_DestroyTexture(texture);//fin de programme, destruction des entitées utilisées
-    //SDL_FreeSurface (surface);
-    //SDL_DestroyRenderer(renderer);
-    return window;
-}
-
-SDL_Surface *rotation(SDL_Surface* surface, char ** argv){
-	int ranges; int colonne; int nbTour;
-	if (argv[1] == NULL || argv[2] != NULL){
-    		perror("Erreur de syntaxe.\n");
-    		return NULL;
-  	}else{
-      		nbTour = atoi(argv[1]);
-  	}
-  	if (surface == NULL){ 
-    		printf("Pas d'image, veuillez importer une image\n");
-    		return NULL;
-  	}
-  	nbTour = nbTour%4;
+SDL_Surface *make_rotation(SDL_Surface* surface, int n)
+{
+	int ranges;
+  int colonne;
+	int nbTour = n%4;
   // en fonction de la parité de la position
   	int new_largeur; 
   	int new_longueur;
@@ -144,19 +91,22 @@ SDL_Surface *rotation(SDL_Surface* surface, char ** argv){
    	}
   	SDL_UnlockSurface(surface);
   	SDL_UnlockSurface(image);
-
   	return image;
 }
 
-int main(int argc, char* argv[]){
-	SDL_Surface *image = NULL;
-	SDL_Surface *p = NULL;
-
-	p = SDL_LoadBMP("lac_en_montagne.bmp");
-	image = rotation(p,argv);
-	afficher(image,"");
-	while(1)
-	{}
-	return 0;
+int rotation(char *name, char *tour)
+{
+  SDL_Surface *new = NULL;
+  SDL_Texture *t = NULL;
+  Windows *c = windows;
+  while(c && c->win && ((int)SDL_GetWindowID(c->win) != atoi(name)))
+    c = c->next;
+  if (c == NULL)
+    return 0;
+  new = make_rotation(c->surface, atoi(tour));
+  c->surface = new;
+  t = create_texture(c);
+  c->texture = t;
+  afficher(c);
+  return 1;
 }
-
